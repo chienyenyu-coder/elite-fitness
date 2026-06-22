@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>ELITE FITNESS</title>
+    <!-- 引入英文字體與中文字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&family=Noto+Serif+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 強制將所有中文與英文內文設定為思源宋體，標題則會額外指定 */
+        body { 
+            background: #0a0a0a; 
+            color: #d4d4d4; 
+            font-family: 'Noto Serif TC', serif; 
+            margin: 0; 
+            line-height: 1.8; 
+        }
+        
+        /* 標題與導覽列特別指定使用 Bodoni Moda 英文字體，中文則自動補回思源宋體 */
+        h1, h2, h3, .logo, nav li { 
+            font-family: 'Bodoni Moda', 'Noto Serif TC', serif; 
+            color: #c5a059; 
+            letter-spacing: 2px; 
+        }
+
+        nav { display: flex; justify-content: space-between; padding: 20px 50px; background: #000; border-bottom: 2px solid #c5a059; align-items: center; }
+        nav ul { display: flex; list-style: none; margin: 0; }
+        nav li { margin-left: 40px; cursor: pointer; font-size: 1.2rem; transition: 0.3s; }
+        nav li:hover { color: #fff; }
+
+        section { padding: 80px 50px; text-align: center; }
+        
+        .coach-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px; }
+        .card { background: #121212; padding: 40px; border: 1px solid #c5a059; width: 300px; text-align: left; }
+        .card h3 { margin-top: 0; border-bottom: 1px solid #c5a059; padding-bottom: 10px; }
+        
+        .chat-container { max-width: 600px; margin: 40px auto; background: #121212; padding: 30px; border: 1px solid #c5a059; }
+        textarea { width: 100%; height: 100px; background: #000; color: #fff; border: 1px solid #c5a059; padding: 15px; box-sizing: border-box; font-family: 'Noto Serif TC', serif; }
+        button { background: transparent; color: #c5a059; border: 1px solid #c5a059; padding: 12px 30px; cursor: pointer; margin-top: 15px; transition: 0.3s; font-family: 'Noto Serif TC', serif; }
+        button:hover { background: #c5a059; color: #000; }
+        #response { margin-top: 20px; color: #fff; border-top: 1px solid #333; padding-top: 15px; }
+		#quiz-content { animation: fadeIn 0.8s ease;}
+		@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; }}
+		/* 新增：選項按鈕樣式 */
+.option-btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    background: #1a1a1a;
+    border: 1px solid #c5a059;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.3s;
+}
+.option-btn:hover {
+    background: #c5a059;
+    color: #000;
+}
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo" style="font-size: 1.8rem;">ELITE FITNESS</div>
+    <ul>
+        <li onclick="showSection('home')">首頁</li>
+        <li onclick="showSection('coaches')">人物誌</li>
+        <li onclick="showSection('quiz')">互動測驗</li>
+    </ul>
+</nav>
+
+<section id="home">
+    <h1>ELITE PERFORMANCE</h1>
+    <p>精準鍛鍊，定義您的極致體態。</p>
+    
+    <div class="chat-container">
+        <h3>AI 健身顧問</h3>
+        <p>有任何訓練疑問嗎？直接告訴我們。</p>
+        <textarea id="userInput" placeholder="例如：我想增肌，應該先練背還是練腿？"></textarea><br>
+        <button onclick="getAIResponse()">發送諮詢</button>
+        <div id="response">等待您的提問...</div>
+    </div>
+</section>
+
+<section id="coaches" style="display:none;">
+    <h2>COACHES</h2>
+    <div class="coach-grid">
+        <div class="card">
+            <h3>Leon</h3>
+            <p><strong>性別：</strong>男 | <strong>年齡：</strong>32歲<br>
+            <strong>個性：</strong>冷靜理性、紀律嚴明。<br>
+			<strong>專業認證：</strong>NSCA-CSCS 體能訓練專家<br>
+            <strong>經歷：</strong>8年職業健力指導，專精大重量深蹲與腿部訓練。</p>
+        </div>
+        <div class="card">
+            <h3>Chloe</h3>
+            <p><strong>性別：</strong>女 | <strong>年齡：</strong>28歲<br>
+            <strong>個性：</strong>細膩感性、富有同理心。<br>
+			<strong>專業認證：</strong>ACE-CPT 私人教練認證<br>
+            <strong>經歷：</strong>5年私人教練經驗，擅長女性曲線雕塑與核心訓練。</p>
+        </div>
+        <div class="card">
+            <h3>Marcus</h3>
+            <p><strong>性別：</strong>男 | <strong>年齡：</strong>35歲<br>
+            <strong>個性：</strong>幽默健談、科學實證導向。<br>
+			<strong>專業認證：</strong>NASM-CES 矯正式運動專家<br>
+            <strong>經歷：</strong>10年運動科學經驗，擅長肩頸矯正與功能性修復。</p>
+        </div>
+    </div>
+</section>
+
+<section id="quiz" style="display:none;">
+    <h2>ASSESSMENT</h2>
+    <p>完成測驗，找出適合您的專屬教練。</p>
+    <!-- 修改這裡：加入一個專門顯示問題的容器 -->
+    <div id="quiz-content">
+        <button id="start-btn" onclick="startQuiz()">開始測驗</button>
+    </div>
+</section>
+
+<script>
+		function getAIResponse() {
+		const userInput = document.getElementById('userInput').value.toLowerCase();
+		const responseDiv = document.getElementById('response');
+	
+		if (userInput.trim() === "") {
+			responseDiv.innerHTML = "請輸入問題，讓我為您分析！";
+			return;
+		}
+	
+		// 15 個關鍵字與對應回答庫
+		const knowledgeBase = [
+			{ keys: ["增肌", "重量", "肌肉", "壯"], answer: "針對增肌，關鍵在於漸進式超負荷與蛋白質攝取。建議諮詢專精大重量與肌肥大的 **Leon 教練**。" },
+			{ keys: ["瘦身", "減脂", "減肥", "脂肪", "變瘦"], answer: "瘦身的核心在於熱量赤字與均衡飲食。**Chloe 教練**擅長規劃女性減脂課表，能有效雕塑線條。" },
+			{ keys: ["痛", "酸痛", "矯正", "坐", "復健", "姿勢"], answer: "身體痠痛可能是動作模式錯誤。請停止高強度訓練，並預約 **Marcus 教練** 進行功能性評估與動作矯正。" },
+			{ keys: ["飲食", "菜單", "蛋白質", "熱量"], answer: "訓練與飲食應同步規劃。建議您可以諮詢我們任何一位教練，取得客製化的營養指導建議。" },
+			{ keys: ["新手", "入門", "第一次", "基礎"], answer: "歡迎加入！建議從基礎動作開始建立穩定性。您可以從 **Chloe 教練** 的核心訓練課程開始打底。" },
+			{ keys: ["曲線", "屁股", "臀", "馬甲線"], answer: "曲線雕塑需要針對性的阻力訓練。**Chloe 教練** 是這方面的專家，能幫助您練出迷人線條。" },
+			{ keys: ["深蹲", "硬舉", "臥推"], answer: "三大項是力量訓練的基石。若想突破瓶頸，建議預約 **Leon 教練** 調整您的力學發力技巧。" },
+			{ keys: ["肩膀", "圓肩", "駝背"], answer: "這是現代人的通病。請預約 **Marcus 教練**，他擅長處理肩頸功能修復與胸椎活動度訓練。" },
+			{ keys: ["頻率", "課表", "幾次"], answer: "訓練頻率取決於強度與恢復能力。建議與教練討論您的目標，制定每週 3-4 次的科學化訓練課表。" },
+			{ keys: ["睡眠", "休息", "恢復"], answer: "恢復與訓練同樣重要。良好的睡眠能促進肌肉合成，若長期感到疲勞，建議調整訓練量。" },
+			{ keys: ["有氧", "跑步", "心肺"], answer: "適度有氧有助於心肺功能，但過多可能會影響肌力表現。建議與教練討論您的混和訓練配置。" },
+			{ keys: ["補給品", "高蛋白", "肌酸"], answer: "補給品只是輔助，均衡飲食才是重點。有疑問的話，可以直接諮詢現場教練。" },
+			{ keys: ["停滯", "卡關", "沒進步"], answer: "訓練卡關很正常，通常是課表需要變化。請諮詢 **Leon 教練** 幫您進行課表週期化調整。" },
+			{ keys: ["核心", "腹肌", "平板撐"], answer: "強大的核心是所有動作的基礎。**Chloe 教練** 有許多專業的核心與體態雕塑訓練法。" },
+			{ keys: ["教練", "顧問", "聯絡"], answer: "我們隨時為您服務！您可以在「人物誌」頁面查看教練專長，並直接聯繫他們進行一對一預約。" }
+		];
+	
+		responseDiv.innerHTML = "<em>教練正在分析您的數據...</em>";
+	
+		setTimeout(() => {
+			// 搜尋邏輯：檢查使用者輸入是否包含清單中的任一個關鍵字
+			let match = knowledgeBase.find(item => item.keys.some(k => userInput.includes(k)));
+        
+			let finalAnswer = match ? match.answer : "這是一個專業的問題！針對您的狀況，建議直接聯繫我們的人物誌教練群，進行更深入的個別諮詢。";
+	
+			responseDiv.innerHTML = `<strong>AI 健身顧問回覆：</strong><br>${finalAnswer}`;
+		}, 1000);
+	}
+
+    // 顯示區塊切換邏輯
+    function showSection(id) {
+        document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+    }
+
+    // 測驗題目資料
+    const questions = [
+        { q: "1. 訓練目標是？", options: ["極致大重量", "曲線與體態", "功能性與矯正"] },
+        { q: "2. 喜歡的教練風格？", options: ["嚴格紀律型", "細膩引導型", "科學分析型"] },
+        { q: "3. 常見訓練問題？", options: ["力量卡關", "線條不明顯", "肌肉痠痛不適"] },
+        { q: "4. 訓練節奏偏好？", options: ["高強度挑戰", "中低強度循環", "精準動作控制"] },
+        { q: "5. 您最重視的教練特質？", options: ["專業與經驗", "同理心與耐心", "幽默與科學知識"] }
+    ];
+
+    let currentIdx = 0;
+    let scores = { Leon: 0, Chloe: 0, Marcus: 0 };
+
+    function renderQuestion() {
+        const content = document.getElementById('quiz-content');
+        const qData = questions[currentIdx];
+        const targets = ['Leon', 'Chloe', 'Marcus']; 
+
+        let html = `<h3>第 ${currentIdx + 1} 題</h3><p>${qData.q}</p>`;
+        qData.options.forEach((opt, i) => {
+            html += `<button class="option-btn" onclick="nextQuestion('${targets[i]}')">${opt}</button>`;
+        });
+        content.innerHTML = html;
+    }
+
+    function nextQuestion(target) {
+        scores[target]++;
+        currentIdx++;
+        if (currentIdx < questions.length) {
+            renderQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function startQuiz() {
+        currentIdx = 0;
+        scores = { Leon: 0, Chloe: 0, Marcus: 0 };
+        renderQuestion();
+    }
+
+    function showResult() {
+        const winner = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        document.getElementById('quiz-content').innerHTML = `
+            <h3>測驗結果</h3>
+            <p>根據您的回答，您最適合 <strong>${winner} 教練</strong> 的訓練風格。</p>
+            <button onclick="startQuiz()">重新測驗</button>
+        `;
+    }
+</script>
+
+</body>
+</html>
