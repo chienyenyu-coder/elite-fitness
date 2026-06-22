@@ -90,22 +90,43 @@
             <h3>Leon</h3>
             <p><strong>性別：</strong>男 | <strong>年齡：</strong>32歲<br>
             <strong>個性：</strong>冷靜理性、紀律嚴明。<br>
-			<strong>專業認證：</strong>NSCA-CSCS 體能訓練專家<br>
+            <strong>專業認證：</strong>NSCA-CSCS 體能訓練專家<br>
             <strong>經歷：</strong>8年職業健力指導，專精大重量深蹲與腿部訓練。</p>
         </div>
         <div class="card">
             <h3>Chloe</h3>
             <p><strong>性別：</strong>女 | <strong>年齡：</strong>28歲<br>
             <strong>個性：</strong>細膩感性、富有同理心。<br>
-			<strong>專業認證：</strong>ACE-CPT 私人教練認證<br>
+            <strong>專業認證：</strong>ACE-CPT 私人教練認證<br>
             <strong>經歷：</strong>5年私人教練經驗，擅長女性曲線雕塑與核心訓練。</p>
         </div>
         <div class="card">
             <h3>Marcus</h3>
             <p><strong>性別：</strong>男 | <strong>年齡：</strong>35歲<br>
             <strong>個性：</strong>幽默健談、科學實證導向。<br>
-			<strong>專業認證：</strong>NASM-CES 矯正式運動專家<br>
+            <strong>專業認證：</strong>NASM-CES 矯正式運動專家<br>
             <strong>經歷：</strong>10年運動科學經驗，擅長肩頸矯正與功能性修復。</p>
+        </div>
+        <div class="card">
+            <h3>Sarah</h3>
+            <p><strong>性別：</strong>女 | <strong>年齡：</strong>26歲<br>
+            <strong>個性：</strong>積極熱情、充滿活力。<br>
+            <strong>專業認證：</strong>NASM-CPT 私人教練認證<br>
+            <strong>經歷：</strong>4年團課教練經驗，擅長高強度間歇訓練(HIIT)與體重管理。</p>
+        </div>
+        <div class="card">
+            <h3>David</h3>
+            <p><strong>性別：</strong>男 | <strong>年齡：</strong>30歲<br>
+            <strong>個性：</strong>嚴謹專注、追求突破。<br>
+            <strong>專業認證：</strong>USAW 舉重教練認證<br>
+            <strong>經歷：</strong>6年運動員訓練經驗，擅長爆發力增長與競技體能。</p>
+        </div>
+        <div class="card">
+            <h3>Emily</h3>
+            <p><strong>性別：</strong>女 | <strong>年齡：</strong>29歲<br>
+            <strong>個性：</strong>溫柔耐心、細心觀察。<br>
+            <strong>專業認證：</strong>RYT-200 瑜珈導師認證<br>
+            <strong>經歷：</strong>5年瑜珈與皮拉提斯教學，擅長身體柔軟度、穩定性與產後恢復。</p>
         </div>
     </div>
 </section>
@@ -168,24 +189,29 @@
 
     // 測驗題目資料
     const questions = [
-        { q: "1. 訓練目標是？", options: ["極致大重量", "曲線與體態", "功能性與矯正"] },
-        { q: "2. 喜歡的教練風格？", options: ["嚴格紀律型", "細膩引導型", "科學分析型"] },
-        { q: "3. 常見訓練問題？", options: ["力量卡關", "線條不明顯", "肌肉痠痛不適"] },
-        { q: "4. 訓練節奏偏好？", options: ["高強度挑戰", "中低強度循環", "精準動作控制"] },
-        { q: "5. 您最重視的教練特質？", options: ["專業與經驗", "同理心與耐心", "幽默與科學知識"] }
+        { q: "1. 您的主要訓練目標是？", options: ["極致大重量", "曲線與體態", "姿勢矯正", "燃脂減重", "爆發力提升", "穩定柔軟度"] },
+        { q: "2. 您偏好的教練風格？", options: ["嚴格紀律型", "細膩引導型", "科學分析型", "熱情活力型", "競技突破型", "溫和療癒型"] },
+        { q: "3. 常見的訓練困擾是？", options: ["力量無法突破", "線條不明顯", "動作疼痛不適", "體能無法負荷", "速度表現平平", "活動度不足"] },
+        { q: "4. 您偏好的訓練節奏？", options: ["低頻高強度", "中速節奏感", "精準慢節奏", "高密度心肺", "爆發性節奏", "流動性節奏"] },
+        { q: "5. 您最重視的教練特質？", options: ["實戰經驗豐富", "溝通共感強", "科學理論紮實", "熱情激勵型", "競技專項專長", "耐心與穩定性"] }
     ];
 
-    let currentIdx = 0;
-    let scores = { Leon: 0, Chloe: 0, Marcus: 0 };
+	let currentIdx = 0;
+    let scores = { Leon: 0, Chloe: 0, Marcus: 0, Sarah: 0, David: 0, Emily: 0 };
+    const coaches = ['Leon', 'Chloe', 'Marcus', 'Sarah', 'David', 'Emily'];
 
     function renderQuestion() {
         const content = document.getElementById('quiz-content');
         const qData = questions[currentIdx];
-        const targets = ['Leon', 'Chloe', 'Marcus']; 
+        // 這裡直接使用原本定義的 coaches 陣列，確保長度與選項一致
+        const targets = ['Leon', 'Chloe', 'Marcus', 'Sarah', 'David', 'Emily']; 
 
         let html = `<h3>第 ${currentIdx + 1} 題</h3><p>${qData.q}</p>`;
+        
         qData.options.forEach((opt, i) => {
-            html += `<button class="option-btn" onclick="nextQuestion('${targets[i]}')">${opt}</button>`;
+            // 確保對應正確的教練，如果選項大於教練數量，則循環使用教練列表
+            const coachName = targets[i % targets.length]; 
+            html += `<button class="option-btn" onclick="nextQuestion('${coachName}')">${opt}</button>`;
         });
         content.innerHTML = html;
     }
@@ -202,7 +228,7 @@
 
     function startQuiz() {
         currentIdx = 0;
-        scores = { Leon: 0, Chloe: 0, Marcus: 0 };
+        scores = { Leon: 0, Chloe: 0, Marcus: 0, Sarah: 0, David: 0, Emily: 0 };
         renderQuestion();
     }
 
